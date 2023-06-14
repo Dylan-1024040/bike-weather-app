@@ -8,14 +8,8 @@ CORS(app)
 @app.route('/api')
 def api():
     return {"name": "Dylan",
-            "age": 22,
-            "hobbies": ["guitar", "going to the gym", "music", "football"],
             "gender": "male",
-            "location": "Rotterdam",
-            "fav cities": ["Lisboa", "Paris", "Barcelona", "New York City", "Brussel/Bruxelles", "Valencia/Valéncia",
-                           "Bordeaux"]
-
-
+            "location": "Rotterdam"
             }
 
 
