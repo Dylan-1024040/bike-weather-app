@@ -5,6 +5,8 @@ const Search = ({onSearchChange}) => {
 
     const [search, setSearch] = useState(null);
 
+
+
     const handleOnChange = (searchData) => {
         setSearch(searchData);
         onSearchChange(searchData);
@@ -12,12 +14,13 @@ const Search = ({onSearchChange}) => {
 
     return (
         <AsyncPaginate
-            placholder="Zoek een stad"
+            placeholder="Zoek een stad"
             debounceTimeout={700}
             value={search}
             onChange={handleOnChange}
-
         />
+
+
     )
 }
 
