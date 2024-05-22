@@ -1,18 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import './App.css'
+
 
 function App() {
+  const [color, setColor] = useState("blue");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to Dylan.
-        </p>
-        <p>Foda-se Caralho!!!</p>
-      </header>
+    <div>
+      <h1>My fav color is {color}</h1>
+
+      <button id="red-button" onClick={() => setColor("red")}>Red</button>
+      <button id="green-button" onClick={() => setColor("green")}>Green</button>
+      <button id='blue-button' onClick={() => setColor("blue")}>Blue</button>
+      
     </div>
   );
+
 }
 
 export default App;
