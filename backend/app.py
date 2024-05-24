@@ -10,7 +10,7 @@ file_with_settings = os.path.join(os.path.dirname(__file__), 'settings.json')
 
 def init_settings():
     if not os.path.exists(file_with_settings):
-        default_settings = {
+        settings_at_default = {
             "location": "",
             "knockOutFactors": {
                 "wind": 0,
@@ -21,7 +21,7 @@ def init_settings():
             }
         }
         with open(file_with_settings, 'w') as f:
-            json.dump(default_settings, f, indent=3)
+            json.dump(settings_at_default, f, indent=3)
             
             
 def settings_load():
@@ -50,4 +50,5 @@ def settings():
     return file_with_settings
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    init_settings()
+    app.run(debug=True, port=3001)
