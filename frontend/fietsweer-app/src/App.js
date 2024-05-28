@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import displayWeather from './components/displayWeather';
 import Settings from './components/settings';
-import Loading from './components/loading'
+import Loading from './components/loading';
 import './App.css';
 
 
