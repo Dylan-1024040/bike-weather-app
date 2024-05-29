@@ -4,6 +4,7 @@ import displayWeather from './components/displayWeather';
 import Settings from './components/settings';
 import Loading from './components/loading';
 import './App.css';
+import Cookies from 'js-cookie';
 
 
 const App = () => {
@@ -18,7 +19,7 @@ const App = () => {
   const [weatherData, setWeatherData] = useState([]);
   const [timeStamo, setTimeStamo] = useState('08:00');
   const [advice, setAdvice] = useState([]);
-  const [settingsVis, setSettingsVis] = useState(false);
+  const [visSettings, setVisSettings] = useState(false);
   const [loading, setLoading] = useState(true);
 }
 

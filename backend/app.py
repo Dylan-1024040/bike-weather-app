@@ -6,11 +6,14 @@ import uuid
 
 
 app = Flask(__name__)
-settings_dir = 'settings'
+
+base_dir = os.path.dirname(__file__)
 
 
+settings_dir = os.path.join(base_dir, 'settings')
 
-print('checking if settings directory exists')
+print(f"settings dir path: {settings_dir}")
+
 if not os.path.exists(settings_dir):
     print('settings directory does not exist, creating it now...')
     os.makedirs(settings_dir)
