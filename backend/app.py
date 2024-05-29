@@ -1,82 +1,105 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, make_response, jsonify
 import requests
 import json
 import os
+import uuid
 
 
 app = Flask(__name__)
-file_with_settings = os.path.join(os.path.dirname(__file__), 'settings.json')
+settings_dir = 'settings'
 
 
-# hier worden de instellingen geinitialiseerd
-def init_settings():
-    if not os.path.exists(file_with_settings):
-        settings_at_default = {
-            "location": "",
-            "knockOutFactors": {
-                "wind": 0,
-                "rain": 0,
-                "cold": 0,
-                "hot": 0,
-                "snow": 0 
-            }
-        }
-        with open(file_with_settings, 'w') as f:
-            json.dump(settings_at_default, f, indent=3)
-            
-# de instellingen worden hier opgeladen            
-def settings_load():
-    with open(file_with_settings, 'r') as f:
-        return json.load(f)
- 
- # hier worden de instelling aanpassen opgeslagen   
-def settings_save(settings):
-    with open(file_with_settings, 'w') as f:
-        json.dump(settings, f, indent=3)
- 
-# een test route om te kijken of de flask-server werkt   
-@app.route('/')
-def index():
-    print('het is gelukt!')
-    return jsonify ({'Name': 'Dylan', 'Age': 23, 'location': 'New York'})
 
-# route om de weer gegevens op te halen
-@app.route('/api/weather')
-def weather_get():
-    settings = settings_load()
-    location = settings.get('location')
-    if not location:
-        return 'Locatie is niet ingesteld', 400
+print('checking if settings directory exists')
+if not os.path.exists(settings_dir):
+    print('settings directory does not exist, creating it now...')
+    os.makedirs(settings_dir)
+    print('settings directory created')
+else:
+    print('settings directory already exists')
     
-    # de api key en de url van de openweathermap api
+def settings_load(user_id):
+    file_with_settings = os.path.join(settings_dir, f'{user_id}.json')
+    if os.path.exists(file_with_settings):
+        with open(file_with_settings, 'r') as file:
+            return json.load(file)
+    return {
+        'location': '',
+        'knockOutFactors': {
+            'wind': 0.0,
+            'rain': 25,
+            'cold': 0,
+            'hot': 0,
+            'snow': 0
+        },
+        'timePreferred': '08:00'
+    }
+    
+def settings_save(user_id, settings):
+    file_with_settings = os.path.join(settings_dir, f'{user_id}.json')
+    with open(file_with_settings, 'w') as file:
+        json.dump(settings, file)
+        
+        
+@app.route('/')
+def test():
+    return 'CARALHOOOOOOO!!!!!!!!'
+        
+@app.route('/api/settings', methods=['GET'])
+def settings_get():
+    user_id = request.cookies.get('user_id')
+    if user_id:
+        return jsonify(settings_load(user_id))
+    else:
+        return jsonify(settings_load(None))
+
+@app.route('/api/settings', methods=['POST'])
+def settings_update():
+    user_id = request.cookies.get('user_id')
+    if not user_id:
+        user_id = str(uuid.uuid4())
+        
+    settings = request.json
+    settings_save(user_id, settings)
+    
+    response = jsonify({'status': 'success', 'user_id': user_id})
+    response.set_cookie('user_id', user_id)
+    return response
+
+@app.route('/api/weather', methods=['GET'])
+def weather_get():
+    user_id = request.cookies.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'Gebruiker ID is niet gevonden'}), 400
+    
+    settings = settings_load(user_id)
+    location = settings['location']
+    time_preffered = settings['timePreffered']
+    
     key = '7448d089b3ccc0fd86b7a71672c3cf9c'
-    url = f'https://api.openweathermap.org/data/2.5/weather?q={location}&appid={key}'
+    url = f'https://api.openweathermap.org/v1/forecast.json?key={key}&q={location}&days=3'
+    
     response = requests.get(url)
     if response.status_code != 200:
-        return 'Error bij het ophalen van de weer gegevens', response.status_code
-    
-    data_weather = response.json()['list'][2]
-    seen_data = [{
-        'date': element['dt_txt'],
-        'wind': element['wind']['speed'],
-        'rain': element['weather'][0]['main'] == 'Rain',
-        'temperature': element['main']['temp'] - 273.15
-    } for element in data_weather]
-    
-    return jsonify(seen_data)
-
-# een route om de instellingen op te halen en aan te passen
-def settings():
-    if request.method == 'GET':
-        return jsonify(settings_load())
-    elif request.method == 'POST':
-        mod_settings = request.json
-        settings_save(mod_settings)
-        return 'instellingen opgeslagen', 200
+        data = response.json()
+        forecast = data['forecast']['forecastday']
+        weather_data = []
+        for day in forecast:
+            for hour in day['hour']:
+                if hour['time'].endswith(time_preffered):
+                    hour_data = {
+                        'date': day['date'],
+                        'time': hour['time'],
+                        'temperature': hour['temp_c'],
+                        'wind': hour['wind_kph'],
+                        'rain': hour['chance_of_rain'],
+                        'snow': hour['chance_of_snow']
+                    }
+                    weather_data.append(hour_data)
+        return jsonify(weather_data)
     else:
-        return file_with_settings
+        return jsonify({'érror': 'weer data kon niet worden opgehaald'}), 500
 
 
 if __name__ == '__main__':
-    init_settings()
     app.run(debug=True, port=3001)

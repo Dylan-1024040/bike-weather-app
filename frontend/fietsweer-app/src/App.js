@@ -16,8 +16,9 @@ const App = () => {
     snow: 0,
   });
   const [weatherData, setWeatherData] = useState([]);
+  const [timeStamo, setTimeStamo] = useState('08:00');
   const [advice, setAdvice] = useState([]);
-  const [settings, setSettings] = useState([false]);
+  const [settingsVis, setSettingsVis] = useState(false);
   const [loading, setLoading] = useState(true);
 }
 
