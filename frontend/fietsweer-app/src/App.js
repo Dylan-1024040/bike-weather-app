@@ -26,6 +26,7 @@ const App = () => {
 useEffect(() => {
   const userId = Cookies.get('user_id');
   if (userId) {
+    axios.get()
 
   }
 })

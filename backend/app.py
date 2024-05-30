@@ -69,15 +69,12 @@ def settings_update():
     response.set_cookie('user_id', user_id)
     return response
 
-@app.route('/api/weather', methods=['GET'])
-def weather_get():
-    user_id = request.cookies.get('user_id')
-    if not user_id:
-        return jsonify({'error': 'Gebruiker ID is niet gevonden'}), 400
+@app.route('/api/weather/<user_id>', methods=['GET'])
+def weather_get(user_id):
     
     settings = settings_load(user_id)
     location = settings['location']
-    time_preffered = settings['timePreffered']
+    time_preffered = settings['timePrefered']
     
     key = '7448d089b3ccc0fd86b7a71672c3cf9c'
     url = f'https://api.openweathermap.org/v1/forecast.json?key={key}&q={location}&days=3'
@@ -96,12 +93,30 @@ def weather_get():
                         'temperature': hour['temp_c'],
                         'wind': hour['wind_kph'],
                         'rain': hour['chance_of_rain'],
-                        'snow': hour['chance_of_snow']
+                        'snow': hour['chance_of_snow'],
+                        'bikeWeather': hour['temp_c'] >= settings['knockOutFactors']['cold'] and
+                                        hour['temp_c'] <= settings['knockOutFactors']['hot'] and
+                                        hour['wind_kph'] <= settings['knockoutFactors']['wind'] and
+                                        hour['chance_of_rain'] <= settings['knockOutFactors']['rain'] and
+                                        hour['chance_of_snow'] <= settings['knockOutFactors']['snow']
                     }
                     weather_data.append(hour_data)
         return jsonify(weather_data)
     else:
         return jsonify({'érror': 'weer data kon niet worden opgehaald'}), 500
+
+@app.route('api/weather', methods=['POST'])
+def save_weather():
+    user_id = request.cookies.get('user_id')
+    if not user_id:
+        user_id = str(uuid.uuid4())
+    
+    settings = request.json
+    settings_save(user_id, settings)
+    
+    response = jsonify({'status': 'success', 'user_id': user_id})
+    response.set_cookie('user_id', user_id)
+    return response
 
 
 if __name__ == '__main__':
