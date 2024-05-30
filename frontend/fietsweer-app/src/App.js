@@ -18,10 +18,17 @@ const App = () => {
   });
   const [weatherData, setWeatherData] = useState([]);
   const [timeStamo, setTimeStamo] = useState('08:00');
-  const [advice, setAdvice] = useState([]);
+  const [adviceBike, setAdviceBike] = useState([]);
   const [visSettings, setVisSettings] = useState(false);
   const [loading, setLoading] = useState(true);
 }
+
+useEffect(() => {
+  const userId = Cookies.get('user_id');
+  if (userId) {
+
+  }
+})
 
 // function App() {
 //   const [color, setColor] = useState("blue");
