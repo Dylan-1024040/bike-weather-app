@@ -1,49 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios"
 
-const Settings = ({ location, knockOutFactors, timePreferred, settingsSave, setSettingsVis}) => {
-    const [locationInput, setLocationInput] = useState(location);
-    const [knockOutFactorsInput, setKnockOutFactorsInput] = useState(knockOutFactors);
-    const [timePreferredInput, setTimePreferredInput] = useState(timePreferred);
+const Settings = ({ setSettingsVis }) => {
+    const [locationInput, setLocationInput ] = useState('');
+    const [knockOutFactors, setKnockOutFactors] = useState({
+        wind: 0.0,
+        rain: 0,
+        cold: 0,
+        hot: 0,
+        snow: 0,
+    });
+    const [timePreferred, setTimePreferred] = useState('08:00');
 
-    const submitSettings = (e) => {
+    useEffect(() => {
+        axios.get('api/settings').then((response) => {
+            const data = response.data;
+            setLocationInput(data.locationInput);
+            setKnockOutFactors(data.knockOutFactors);
+            setTimePreferred(data.timePreferred);
+        });
+    }, []);
+
+    const settingsSubmit = (e) => {
         e.preventDefault();
-        settingsSave(locationInput, knockOutFactorsInput, timePreferredInput)
+        const settings = {
+            locationInput,
+            knockOutFactors,
+            timePreferred
+        };
+        axios.post('api/settings', settings).then((response) => {
+            document.cookie = `user_id=${response.data.user_id}`;
+            setSettingsVis(false);
+        })
     };
 
     return (
-        <form onsubmit={submitSettings}>
+        <form onsubmit={settingsSubmit}>
             <label>
                 Locatie:
                 <input type="text" value={locationInput} onChange={(e) => setLocationInput(e.target.value)} />
             </label>
-            <label>
+             <label>
                 Wind (km/h):
-                <input type="text" value={knockOutFactorsInput.wind} onChange={(e) => setKnockOutFactorsInput({...knockOutFactorsInput, wind: e.target.value})} />
+                <input type="number" value={knockOutFactors.wind} onChange={(e) => setKnockOutFactors({...knockOutFactors, wind: parseFloat(e.target.value) })} />
             </label>
-            <label>
+             <label>
                 Regen (% kans):
-                <input type="text" value={knockOutFactorsInput.rain} onChange={(e) => setKnockOutFactorsInput({...knockOutFactorsInput, rain: e.target.value})} />
+                <input type="number" value={knockOutFactors.rain} onChange={(e) => setKnockOutFactors({...knockOutFactors, rain: parseFloat(e.target.value) })} />
             </label>
              <label>
                 Koud (°C):
-                <input type="text" value={knockOutFactorsInput.cold} onChange={(e) => setKnockOutFactorsInput({...knockOutFactorsInput, cold: e.target.value})} />
+                <input type="number" value={knockOutFactors.cold} onChange={(e) => setKnockOutFactors({...knockOutFactors, cold : parseFloat(e.target.value) })} />
             </label>
              <label>
-                Warm: (°C):
-                <input type="text" value={knockOutFactorsInput.hot} onChange={(e) => setKnockOutFactorsInput({...knockOutFactorsInput, hot: e.target.value})} />
+                Warm (°C):
+                <input type="number" value={knockOutFactors.hot} onChange={(e) => setKnockOutFactors({...knockOutFactors, hot: parseFloat(e.target.value) })} />
             </label>
              <label>
                 Sneeuw (% kans):
-                <input type="text" value={knockOutFactorsInput.snow} onChange={(e) => setKnockOutFactorsInput({...knockOutFactorsInput, snow: e.target.value})} />
+                <input type="number" value={knockOutFactors.snow} onChange={(e) => setKnockOutFactors({...knockOutFactors, snow: parseFloat(e.target.value) })} />
+            </label>
+             <label>
+                Tijd:
+                <input type="text" value={locationInput} onChange={(e) => setLocationInput(e.target.value)} />
             </label>
             <label>
                 Tijd:
-                <input type="time" value={timePreferredInput} onChange={(e) => setTimePreferredInput(e.target.value)} />
+                <input type="time" value={timePreferred} onChange={(e) => setLocationInput(e.target.value)} />
             </label>
             <button type="submit">Opslaan</button>
             <button type="button" onClick={() => setSettingsVis(false)}>Annuleren</button>
         </form>
     );
-};
-
+}
 export default Settings;
