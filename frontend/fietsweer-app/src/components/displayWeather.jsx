@@ -2,7 +2,7 @@ import React from 'react';
 import bikeOutside from '../images/happyBike.png';
 import bikeInside from '../images/bikeInside.png';
 
-const displayWeather = ({ adviceBike }) => {
+const Weather = ({ adviceBike }) => {
     return (
         <div>
              {adviceBike.map((day, index) => (
@@ -24,4 +24,4 @@ const displayWeather = ({ adviceBike }) => {
     );
 };
 
-export default displayWeather;
+export default Weather;

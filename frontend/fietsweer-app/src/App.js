@@ -1,36 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import displayWeather from './components/displayWeather';
+import React, { useState } from 'react';
+import Weather from './components/displayWeather';
 import Settings from './components/settings';
-import Loading from './components/loading';
 import './App.css';
-import Cookies from 'js-cookie';
+
 
 
 const App = () => {
-  const [location, setLocation] = useState('');
-  const [knockOutFactors, stKnockoutFactors] = useState({
-    wind: 0.0,
-    rain: 0,
-    cold: 0,
-    hot: 0,
-    snow: 0,
-  });
-  const [weatherData, setWeatherData] = useState([]);
-  const [timeStamo, setTimeStamo] = useState('08:00');
-  const [adviceBike, setAdviceBike] = useState([]);
-  const [visSettings, setVisSettings] = useState(false);
-  const [loading, setLoading] = useState(true);
-}
+  const [settingsVis, setSettingsVis] = useState(false);
 
-useEffect(() => {
-  const userId = Cookies.get('user_id');
-  if (userId) {
-    axios.get()
-
-  }
-})
-
+  return (
+    <div>
+      <header>
+        <h1>Fietsweer Voorspelling</h1>
+        <button onClick={() => setSettingsVis(!setSettingsVis)}>
+          {settingsVis ? 'Terug': 'instellingen'}
+        </button>
+      </header>
+      <main>
+        {settingsVis ? (
+          <Settings setSettingsVis={setSettingsVis} />
+        ) : (
+          <Weather />
+        )}
+      </main>
+    </div>
+  );
+};
 // function App() {
 //   const [color, setColor] = useState("blue");
 
