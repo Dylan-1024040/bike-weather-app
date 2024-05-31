@@ -69,55 +69,47 @@ def settings_update():
     response.set_cookie('user_id', user_id)
     return response
 
+
 @app.route('/api/weather/<user_id>', methods=['GET'])
 def weather_get(user_id):
     
     settings = settings_load(user_id)
     location = settings['location']
-    time_preffered = settings['timePrefered']
+    time_preferred = settings['timePreferred']
     
     key = '7448d089b3ccc0fd86b7a71672c3cf9c'
     url = f'https://api.openweathermap.org/v1/forecast.json?key={key}&q={location}&days=3'
     
     response = requests.get(url)
-    if response.status_code != 200:
+    if response.status_code == 200:
         data = response.json()
-        forecast = data['forecast']['forecastday']
-        weather_data = []
-        for day in forecast:
-            for hour in day['hour']:
-                if hour['time'].endswith(time_preffered):
-                    hour_data = {
-                        'date': day['date'],
-                        'time': hour['time'],
-                        'temperature': hour['temp_c'],
-                        'wind': hour['wind_kph'],
-                        'rain': hour['chance_of_rain'],
-                        'snow': hour['chance_of_snow'],
-                        'bikeWeather': hour['temp_c'] >= settings['knockOutFactors']['cold'] and
-                                        hour['temp_c'] <= settings['knockOutFactors']['hot'] and
-                                        hour['wind_kph'] <= settings['knockoutFactors']['wind'] and
-                                        hour['chance_of_rain'] <= settings['knockOutFactors']['rain'] and
-                                        hour['chance_of_snow'] <= settings['knockOutFactors']['snow']
-                    }
-                    weather_data.append(hour_data)
+        forecast = data['list']
+        weather_data = {
+            "id": user_id,
+            "location": location,
+            "departure": time_preferred,
+            "okay_to_bike": []
+        }
+        for item in forecast:
+            date = item['dt_txt'].split(' ')[0]
+            time = item['dt_txt'].split(' ')[1]
+            if time.startswith(time_preferred):
+                bike_okay = True
+                if item['wind']['speed'] > settings['knockOutFactors']['wind']:
+                    bike_okay = False
+                if item['pop'] > settings['knockOutFactors']['rain'] / 100:
+                    bike_okay = False
+                if item['main']['temp'] > settings['knockOutFactors']['cold']:
+                    bike_okay = False
+                if item['main']['temp'] > settings['knockOutFactors']['hot']:
+                    bike_okay = False
+                weather_data["okay_to_bike"].append({
+                    "date": date,
+                    "bike_okay": bike_okay
+                })
         return jsonify(weather_data)
     else:
-        return jsonify({'érror': 'weer data kon niet worden opgehaald'}), 500
-
-@app.route('api/weather', methods=['POST'])
-def save_weather():
-    user_id = request.cookies.get('user_id')
-    if not user_id:
-        user_id = str(uuid.uuid4())
-    
-    settings = request.json
-    settings_save(user_id, settings)
-    
-    response = jsonify({'status': 'success', 'user_id': user_id})
-    response.set_cookie('user_id', user_id)
-    return response
-
+        return jsonify({'error': 'weer data kan niet worden opgehaald'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=3001)

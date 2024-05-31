@@ -31,24 +31,22 @@ const Weather = () => {
     return (
         <div>
             <h2>Weer voorspelling</h2>
-            {dataWeather.map((data, index) => (
+            <p>Locatie: {dataWeather.location}</p>
+            <p>Vertrektijd: {dataWeather.departure}</p>
+            {dataWeather.okay_to_bike.map((data, index) => (
                 <div key={index}>
                     <p>Datum: {data.date}</p>
-                    <p>Tijd: {data.time}</p>
-                    <p>Temperatuur: {data.temperature}</p>
-                    <p>Wind: {data.wind}</p>
-                    <p>Sneeuw {data.snow}</p>
                     <p>
-                        Fiets weer:
-                        {data.bikeWeather ? (
-                            <img src={bikeOutside} alt="Sun on a bike" style={{ width: '30px', height: '30px'}}/>
+                        Fiets Weer: 
+                        {data.bike_okay ? (
+                            <img src={bikeOutside} alt="sun on bike" style={{ width: '30px', height: '30px' }} />
                         ) : (
-                            <img src={bikeInside} alt="bike inside a house" style={{ width: '30px', height: '30px'}}/>
+                            <img src={bikeInside} alt="bike in a house" style={{ width: '30px', height: '30px' }} />
                         )}
                     </p>
                 </div>
             ))}
         </div>
-    )
+    );
 }
 export default Weather;
