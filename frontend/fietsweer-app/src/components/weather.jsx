@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import bikeOutside from '../images/happyBike.png';
-import bikeInside from '../images/bikeInside.png';
+
 
 const Weather = () => {
     const [dataWeather, setDataWeather] = useState([]);
@@ -39,9 +38,9 @@ const Weather = () => {
                     <p>
                         Fiets Weer: 
                         {data.bike_okay ? (
-                            <img src={bikeOutside} alt="sun on bike" style={{ width: '30px', height: '30px' }} />
+                            <img src="/happyBike.png" alt="sun on bike" style={{ width: '30px', height: '30px' }} />
                         ) : (
-                            <img src={bikeInside} alt="bike in a house" style={{ width: '30px', height: '30px' }} />
+                            <img src="/bikeinside.png" alt="bike in a house" style={{ width: '30px', height: '30px' }} />
                         )}
                     </p>
                 </div>

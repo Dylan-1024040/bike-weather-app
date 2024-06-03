@@ -1,4 +1,5 @@
 from flask import Flask, request, make_response, jsonify
+from flask_cors import CORS
 import requests
 import json
 import os
@@ -6,6 +7,7 @@ import uuid
 
 
 app = Flask(__name__)
+CORS(app)
 
 base_dir = os.path.dirname(__file__)
 
