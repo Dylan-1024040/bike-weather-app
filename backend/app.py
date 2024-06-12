@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import requests
 import json
@@ -6,7 +6,7 @@ import os
 import uuid
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../client/build', static_url_path='/')
 CORS(app)
 
 base_dir = os.path.dirname(__file__)
@@ -45,10 +45,6 @@ def settings_save(user_id, settings):
     with open(file_with_settings, 'w') as file:
         json.dump(settings, file)
         
-        
-@app.route('/')
-def test():
-    return 'CARALHOOOOOOO!!!!!!!!'
         
 @app.route('/api/settings', methods=['GET'])
 def settings_get():
@@ -112,6 +108,14 @@ def weather_get(user_id):
         return jsonify(weather_data)
     else:
         return jsonify({'error': 'weer data kan niet worden opgehaald'}), 500
+
+@app.route('/')
+def serve():
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.errorhandler(404)
+def not_found(e):
+    return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=3001)
