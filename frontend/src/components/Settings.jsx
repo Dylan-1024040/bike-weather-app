@@ -1,11 +1,62 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 
-const Settings = () => {
+const Settings = ({ initSettings, setUserId}) => {
+    const [location, setLocation] = useState(initSettings.location);
+    const [knockOutFactors, setKnockOutFactors] = useState(initSettings.knockOutFactors);
+    const [timepreferred, setTimePreferred] = useState(initSettings.timepreferred);
+    const navigate = useNavigate();
+
+    const submitSettings = async (e) => {
+        e.preventDefault();
+        const settings = { location, knockOutFactors, timepreferred }
+        try {
+            const response = await axios.post('api/settings', settings);
+            const { user_id } = response.data;
+            setUserId(user_id);
+            navigate('/');
+        } catch (error) {
+            console.error('Fout bij opslaan instellingen: ', error);
+        }
+    };
+
+
     return (
-        <div>
-            <h1>Instellingen</h1>
-        </div>
-    )
-}
+        <form onSubmit={submitSettings}>
+            <label>
+                Locatie:
+                <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+            </label>
+            <label>
+                Wind (km/h):
+                <input type="number" value={knockOutFactors.wind} onChange={(e) => setKnockOutFactors({ ...knockOutFactors, wind: e.target.value })} />
+            </label>
+            <label>
+                Regen (% kans):
+                <input type="number" value={knockOutFactors.rain} onChange={(e) => setKnockOutFactors({ ...knockOutFactors, rain: e.target.value })} />
+            </label>
+            <label>
+                koud (°C):
+                <input type="number" value={knockOutFactors.cold} onChange={(e) => setKnockOutFactors({ ...knockOutFactors, cold: e.target.value })}  />
+            </label>
+            <label>
+                Warm (°C):
+                <input type="number" value={knockOutFactors.warm} onChange={(e) => setKnockOutFactors({ ...knockOutFactors, warm: e.target.value })}/>
+            </label>
+            <label>
+                Sneeuw (% kans):
+                <input type="number" value={knockOutFactors.snow} onChange={(e) => setKnockOutFactors({ ...knockOutFactors, snow: e.target.value })} />
+            </label>
+            <label>
+                Tijd:
+                <input type="time" value={location} onChange={(e) => setTimePreferred(e.target.value)} />
+            </label>
+            <button type="submit">Opslaan</button>
+            <button type="button" onClick={() => navigate('/')}>Annuleren</button>
+
+        </form>
+    );
+};
+
+export default Settings;
