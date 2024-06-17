@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link} from 'react-dom';
+import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
 import axios from 'axios';
 import Settings from './components/Settings';
 import Weather from './components/Weather';
@@ -16,7 +16,7 @@ const App = () => {
       hot: 0,
       snow: 0,
     },
-    timepreferred: '08:00',
+    timePreferred: '08:00',
   });
 
   useEffect(() => {

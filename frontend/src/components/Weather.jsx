@@ -12,7 +12,7 @@ const Weather = ({ userId }) => {
         const fetchWeather = async () => {
             if (userId) {
                 try {
-                    const response = await axios.get(`/api/weather/${userId}`);
+                    const response = await axios.get(`http://127.0.0.1:3001/api/weather/${userId}`);
                     setDataWeather(response.data);
                 } catch (error) {
                     console.error('Fout bij ophalen weer data: ', error);

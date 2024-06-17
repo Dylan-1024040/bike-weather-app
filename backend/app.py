@@ -6,7 +6,7 @@ import os
 import uuid
 
 
-app = Flask(__name__, static_folder='../client/build', static_url_path='/')
+app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 CORS(app)
 
 base_dir = os.path.dirname(__file__)
@@ -22,7 +22,8 @@ if not os.path.exists(settings_dir):
     print('settings directory created')
 else:
     print('settings directory already exists')
-    
+   
+# laat de instellingen van de gebruiker zien 
 def settings_load(user_id):
     file_with_settings = os.path.join(settings_dir, f'{user_id}.json')
     if os.path.exists(file_with_settings):
@@ -39,7 +40,8 @@ def settings_load(user_id):
         },
         'timePreferred': '08:00'
     }
-    
+
+# slaat de instellingen van de gebruiker op     
 def settings_save(user_id, settings):
     file_with_settings = os.path.join(settings_dir, f'{user_id}.json')
     with open(file_with_settings, 'w') as file:

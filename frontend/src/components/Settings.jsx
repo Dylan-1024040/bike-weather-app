@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const Settings = ({ initSettings, setUserId}) => {
     const [location, setLocation] = useState(initSettings.location);
     const [knockOutFactors, setKnockOutFactors] = useState(initSettings.knockOutFactors);
-    const [timepreferred, setTimePreferred] = useState(initSettings.timepreferred);
+    const [timePreferred, setTimePreferred] = useState(initSettings.timepreferred);
     const navigate = useNavigate();
 
     const submitSettings = async (e) => {
         e.preventDefault();
-        const settings = { location, knockOutFactors, timepreferred }
+        const settings = { location, knockOutFactors, timePreferred }
         try {
-            const response = await axios.post('api/settings', settings);
+            const response = await axios.post('http://127.0.0.1:3001/api/settings', settings);
             const { user_id } = response.data;
             setUserId(user_id);
             navigate('/');
@@ -50,7 +50,7 @@ const Settings = ({ initSettings, setUserId}) => {
             </label>
             <label>
                 Tijd:
-                <input type="time" value={location} onChange={(e) => setTimePreferred(e.target.value)} />
+                <input type="time" value={timePreferred} onChange={(e) => setTimePreferred(e.target.value)} />
             </label>
             <button type="submit">Opslaan</button>
             <button type="button" onClick={() => navigate('/')}>Annuleren</button>
