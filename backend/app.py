@@ -72,13 +72,12 @@ def settings_update():
 
 @app.route('/api/weather/<user_id>', methods=['GET'])
 def weather_get(user_id):
-    
     settings = settings_load(user_id)
     location = settings['location']
     time_preferred = settings['timePreferred']
     
-    key = '7448d089b3ccc0fd86b7a71672c3cf9c'
-    url = f'https://api.openweathermap.org/v1/forecast.json?key={key}&q={location}&days=3'
+    key = '185a00567647636ebee0602921cb083f'
+    url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}'
     
     response = requests.get(url)
     if response.status_code == 200:
@@ -95,13 +94,13 @@ def weather_get(user_id):
             time = item['dt_txt'].split(' ')[1]
             if time.startswith(time_preferred):
                 bike_okay = True
-                if item['wind']['speed'] > settings['knockOutFactors']['wind']:
+                if item['wind']['speed'] > int(settings['knockOutFactors']['wind']):
                     bike_okay = False
-                if item['pop'] > settings['knockOutFactors']['rain'] / 100:
+                if item['pop'] > int(settings['knockOutFactors']['rain']) / 100:
                     bike_okay = False
-                if item['main']['temp'] > settings['knockOutFactors']['cold']:
+                if item['main']['temp'] > int(settings['knockOutFactors']['cold']):
                     bike_okay = False
-                if item['main']['temp'] > settings['knockOutFactors']['hot']:
+                if item['main']['temp'] > int(settings['knockOutFactors']['hot']):
                     bike_okay = False
                 weather_data["okay_to_bike"].append({
                     "date": date,

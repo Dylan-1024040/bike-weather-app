@@ -22,7 +22,7 @@ const App = () => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await axios.get('/api/settings');
+        const response = await axios.get('http://127.0.0.1:3001/api/settings');
         const { user_id, ...settings } = response.data;
         setUserId(user_id);
         setInitSettings(settings);

@@ -14,6 +14,7 @@ const Weather = ({ userId }) => {
                 try {
                     const response = await axios.get(`http://127.0.0.1:3001/api/weather/${userId}`);
                     setDataWeather(response.data);
+                    console.log('Weer data opgehaald: ', response.data);
                 } catch (error) {
                     console.error('Fout bij ophalen weer data: ', error);
                 }

@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom"
 const Settings = ({ initSettings, setUserId}) => {
     const [location, setLocation] = useState(initSettings.location);
     const [knockOutFactors, setKnockOutFactors] = useState(initSettings.knockOutFactors);
-    const [timePreferred, setTimePreferred] = useState(initSettings.timepreferred);
+    const [timePreferred, setTimePreferred] = useState(initSettings.timePreferred);
     const navigate = useNavigate();
 
     const submitSettings = async (e) => {
         e.preventDefault();
         const settings = { location, knockOutFactors, timePreferred }
         try {
-            const response = await axios.post('http://127.0.0.1:3001/api/settings', settings);
+            const response = await axios.post('http://127.0.0.1:3001/api/settings', settings );
             const { user_id } = response.data;
             setUserId(user_id);
             navigate('/');
@@ -37,12 +37,12 @@ const Settings = ({ initSettings, setUserId}) => {
                 <input type="number" value={knockOutFactors.rain} onChange={(e) => setKnockOutFactors({ ...knockOutFactors, rain: e.target.value })} />
             </label>
             <label>
-                koud (°C):
+                Koud (°C):
                 <input type="number" value={knockOutFactors.cold} onChange={(e) => setKnockOutFactors({ ...knockOutFactors, cold: e.target.value })}  />
             </label>
             <label>
                 Warm (°C):
-                <input type="number" value={knockOutFactors.warm} onChange={(e) => setKnockOutFactors({ ...knockOutFactors, warm: e.target.value })}/>
+                <input type="number" value={knockOutFactors.hot} onChange={(e) => setKnockOutFactors({ ...knockOutFactors, hot: e.target.value })}/>
             </label>
             <label>
                 Sneeuw (% kans):
