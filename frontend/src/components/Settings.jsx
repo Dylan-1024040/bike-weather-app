@@ -12,7 +12,7 @@ const Settings = ({ initSettings, setUserId}) => {
         e.preventDefault();
         const settings = { location, knockOutFactors, timePreferred }
         try {
-            const response = await axios.post('http://127.0.0.1:3001/api/settings', settings );
+            const response = await axios.post('http://127.0.0.1:3001/api/settings', settings);
             const { user_id } = response.data;
             setUserId(user_id);
             navigate('/');

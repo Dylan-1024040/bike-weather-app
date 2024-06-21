@@ -10,8 +10,8 @@ const App = () => {
   const [initSettings, setInitSettings] = useState({
     location: '',
     knockOutFactors: {
-      wind: 0.0,
-      rain: 25,
+      wind: 0,
+      rain: 0,
       cold: 0,
       hot: 0,
       snow: 0,

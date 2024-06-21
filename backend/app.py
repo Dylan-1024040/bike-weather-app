@@ -32,8 +32,8 @@ def settings_load(user_id):
     return {
         'location': '',
         'knockOutFactors': {
-            'wind': 0.0,
-            'rain': 25,
+            'wind': 0,
+            'rain': 0,
             'cold': 0,
             'hot': 0,
             'snow': 0
@@ -77,7 +77,7 @@ def weather_get(user_id):
     time_preferred = settings['timePreferred']
     
     key = '185a00567647636ebee0602921cb083f'
-    url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}'
+    url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}&units-metric'
     
     response = requests.get(url)
     if response.status_code == 200:
@@ -98,7 +98,7 @@ def weather_get(user_id):
                     bike_okay = False
                 if item['pop'] > int(settings['knockOutFactors']['rain']) / 100:
                     bike_okay = False
-                if item['main']['temp'] > int(settings['knockOutFactors']['cold']):
+                if item['main']['temp'] < int(settings['knockOutFactors']['cold']):
                     bike_okay = False
                 if item['main']['temp'] > int(settings['knockOutFactors']['hot']):
                     bike_okay = False
