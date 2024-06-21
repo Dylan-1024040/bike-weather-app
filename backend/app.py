@@ -76,7 +76,7 @@ def weather_get(user_id):
     location = settings['location']
     time_preferred = settings['timePreferred']
     
-    key = '185a00567647636ebee0602921cb083f'
+    key = 'e49cc0e74ea3a19645771a064e27a972'
     url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}&units-metric'
     
     response = requests.get(url)
