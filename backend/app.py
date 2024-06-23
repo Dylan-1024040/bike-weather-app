@@ -77,11 +77,13 @@ def weather_get(user_id):
     time_preferred = settings['timePreferred']
     
     key = 'e49cc0e74ea3a19645771a064e27a972'
-    url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}&units-metric'
+    url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}&units=metric'
     
     response = requests.get(url)
+    print(f"API URL: {url}")
     if response.status_code == 200:
         data = response.json()
+        print(f"API Response: {json.dumps(data, indent=2)}")
         forecast = data['list']
         weather_data = {
             "id": user_id,
@@ -91,16 +93,17 @@ def weather_get(user_id):
         }
         for item in forecast:
             date = item['dt_txt'].split(' ')[0]
-            time = item['dt_txt'].split(' ')[1]
+            time = item['dt_txt'].split(' ')[1][:5]
+            print(f"Forecast item: {item}")
             if time.startswith(time_preferred):
                 bike_okay = True
-                if item['wind']['speed'] > int(settings['knockOutFactors']['wind']):
+                if item['wind']['speed'] > settings['knockOutFactors']['wind']:
                     bike_okay = False
-                if item['pop'] > int(settings['knockOutFactors']['rain']) / 100:
+                if item['pop'] > settings['knockOutFactors']['rain'] / 100:
                     bike_okay = False
-                if item['main']['temp'] < int(settings['knockOutFactors']['cold']):
+                if item['main']['temp'] < settings['knockOutFactors']['cold']:
                     bike_okay = False
-                if item['main']['temp'] > int(settings['knockOutFactors']['hot']):
+                if item['main']['temp'] > settings['knockOutFactors']['hot']:
                     bike_okay = False
                 weather_data["okay_to_bike"].append({
                     "date": date,
@@ -108,6 +111,7 @@ def weather_get(user_id):
                 })
         return jsonify(weather_data)
     else:
+        print(f"API Error: {response.status_code}")
         return jsonify({'error': 'weer data kan niet worden opgehaald'}), 500
 
 @app.route('/')
