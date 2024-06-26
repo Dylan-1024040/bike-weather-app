@@ -1,30 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"
+import Cookies from "js-cookie";
 
-const Settings = ({ initSettings, setUserId}) => {
+const Settings = ({ initSettings }) => {
     const [location, setLocation] = useState(initSettings.location);
     const [knockOutFactors, setKnockOutFactors] = useState(initSettings.knockOutFactors);
     const [timePreferred, setTimePreferred] = useState(initSettings.timePreferred);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchSettings = async () => {
-            try {
-                const response = await axios.get('http://127.0.0.1:3001/api/settings');
-                const { user_id, ...fetchedSettings } = response.data;
-                setUserId(user_id);
-                setLocation(fetchedSettings.location);
-                setKnockOutFactors(fetchedSettings.knockOutFactors);
-                setTimePreferred(fetchedSettings.timePreferred);
-            } catch (error) {
-                console.error("Fout bij ophalen instellingen: ", error);
-            }
-        };
-
-        fetchSettings();
-    }, [setUserId]);
-
     
     const submitSettings = async (e) => {
         e.preventDefault();
@@ -32,7 +15,7 @@ const Settings = ({ initSettings, setUserId}) => {
         try {
             const response = await axios.post('http://127.0.0.1:3001/api/settings', settings);
             const { user_id } = response.data;
-            setUserId(user_id);
+            Cookies.set('user_id', user_id);
             navigate('/');
         } catch (error) {
             console.error('Fout bij opslaan instellingen: ', error);

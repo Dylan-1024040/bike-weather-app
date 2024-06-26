@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
-const Weather = ({ userId }) => {
+const Weather = () => {
     const [dataWeather, setDataWeather ] = useState({
         location: '',
         departure: '',
@@ -9,21 +10,21 @@ const Weather = ({ userId }) => {
     });
 
     useEffect(() => {
-        const fetchWeather = async () => {
-            if (userId) {
+        const userId = Cookies.get('user_id');
+        if (userId) {
+            const fetchWeather = async () => {
                 try {
                     const response = await axios.get(`http://127.0.0.1:3001/api/weather/${userId}`);
                     setDataWeather(response.data);
-                    console.log('Weer data opgehaald: ', response.data);
-                } catch (error) {
-                    console.error('Fout bij ophalen weer data: ', error);
-                }
+                    console.log('weer data opgehaald', response.data);
+            } catch (error) {
+                console.error('Fout bij ophalen weer data: ', error);
             }
         };
-
         fetchWeather();
-    }, [userId]);
+}
 
+}, []);
 
 
     return (

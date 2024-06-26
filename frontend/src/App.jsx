@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import Settings from './components/Settings';
 import Weather from './components/Weather';
 import './App.css';
@@ -20,17 +21,17 @@ const App = () => {
   });
 
   useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:3001/api/settings');
-        const { user_id, ...settings } = response.data;
-        setUserId(user_id);
-        setInitSettings(settings);
-      } catch (error) {
+    const storedUserId = Cookies.get('user_id');
+    if (storedUserId) {
+      axios.get('http://127.0.0.1:3001/api/settings')
+      .then(response => {
+        setInitSettings(response.data);
+        setUserId(storedUserId);
+      })
+      .catch(error => {
         console.error('Fout bij ophalen instellingen: ', error);
-      }
-    };
-    fetchSettings();
+      });
+    }
   }, []);
 
 
