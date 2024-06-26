@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Settings from './components/Settings';
 import Weather from './components/Weather';
+import Navigation from './components/Navigation';
 import './App.css';
 
 const App = () => {
@@ -37,23 +38,11 @@ const App = () => {
 
   return (
     <Router>
-      <div className="App">
-        <h1>Weather App</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/settings">Instellingen</Link>
-            </li>
-          </ul>
-        </nav>
+      <Navigation />
         <Routes>
           <Route path="/" element={<Weather userId={userId} />} />
           <Route path="/settings" element={<Settings initSettings={initSettings} setUserId={setUserId} />} /> 
         </Routes>
-      </div>
    </Router>  
   );
 }
