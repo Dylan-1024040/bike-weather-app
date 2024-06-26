@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Settings from './components/Settings';
 import Weather from './components/Weather';
+import History from './components/History';
 import Navigation from './components/Navigation';
 import './App.css';
 
@@ -42,6 +43,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Weather userId={userId} />} />
           <Route path="/settings" element={<Settings initSettings={initSettings} setUserId={setUserId} />} /> 
+          <Route path="/history" element={<History  />} />
         </Routes>
    </Router>  
   );
