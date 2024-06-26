@@ -75,6 +75,7 @@ def weather_get(user_id):
     settings = settings_load(user_id)
     location = settings['location']
     time_preferred = settings['timePreferred']
+    hours_preferred = str((int(time_preferred.split(':')[0]) // 3) * 3)
     
     key = 'e49cc0e74ea3a19645771a064e27a972'
     url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}&units=metric'
@@ -95,15 +96,15 @@ def weather_get(user_id):
             date = item['dt_txt'].split(' ')[0]
             time = item['dt_txt'].split(' ')[1][:5]
             print(f"Forecast item: {item}")
-            if time.startswith(time_preferred):
+            if time.startswith(hours_preferred):
                 bike_okay = True
-                if item['wind']['speed'] > settings['knockOutFactors']['wind']:
+                if item['wind']['speed'] > float(settings['knockOutFactors']['wind']):
                     bike_okay = False
-                if item['pop'] > settings['knockOutFactors']['rain'] / 100:
+                if item['pop'] > float(settings['knockOutFactors']['rain']) / 100:
                     bike_okay = False
-                if item['main']['temp'] < settings['knockOutFactors']['cold']:
+                if item['main']['temp'] < float(settings['knockOutFactors']['cold']):
                     bike_okay = False
-                if item['main']['temp'] > settings['knockOutFactors']['hot']:
+                if item['main']['temp'] > float(settings['knockOutFactors']['hot']):
                     bike_okay = False
                 weather_data["okay_to_bike"].append({
                     "date": date,

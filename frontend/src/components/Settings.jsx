@@ -8,6 +8,9 @@ const Settings = ({ initSettings, setUserId}) => {
     const [timePreferred, setTimePreferred] = useState(initSettings.timePreferred);
     const navigate = useNavigate();
 
+    
+
+
     const submitSettings = async (e) => {
         e.preventDefault();
         const settings = { location, knockOutFactors, timePreferred }
