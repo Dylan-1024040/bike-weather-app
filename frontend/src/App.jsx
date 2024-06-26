@@ -29,7 +29,6 @@ const App = () => {
       } catch (error) {
         console.error('Fout bij ophalen instellingen: ', error);
       }
-
     };
     fetchSettings();
   }, []);
@@ -55,7 +54,7 @@ const App = () => {
         </Routes>
       </div>
    </Router>  
-  )
+  );
 }
 
 export default App;
