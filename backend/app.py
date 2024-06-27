@@ -25,6 +25,18 @@ else:
    
 # laat de instellingen van de gebruiker zien 
 def settings_load(user_id):
+    if not user_id:
+        return {
+            'location': '',
+            'knockOutFactors': {
+                'wind': 0,
+                'rain': 0,
+                'cold': 0,
+                'hot': 0,
+                'snow': 0
+            },
+            'timePreferred': '08:00'
+        }
     file_with_settings = os.path.join(settings_dir, f'{user_id}.json')
     if os.path.exists(file_with_settings):
         with open(file_with_settings, 'r') as file:
