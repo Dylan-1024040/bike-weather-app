@@ -1,40 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 
 const History = () => {
     const [history, setHistory] = useState([]);
 
     useEffect(() => {
-        const userId = localStorage.getItem('user_id');
-        const settings = localStorage.getItem('settings');
-        const parsedSettings = settings ? JSON.parse(settings) : null;
+        const fetchHistory = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:3001/api/settings/history');
+                setHistory(response.data);
+            } catch (error) {
+                console.error('Fout bij ophalen geschiedenis: ', error);
+        };
+    }
 
-        const historyData = [];
-        if (userId) {
-            historyData.push({ name: 'userId', value: userId }); 
-        }
-        if (parsedSettings) {
-            historyData.push({ name: 'settings', value: parsedSettings });
-        }
-
-        setHistory(historyData);
-}, []);
+        fetchHistory();
+    }, []); 
 
 return (
     <div>
-        <h2>Cookie geschiedenis</h2>
-        <ul>
-            {history.length === 0 ? (
-                <li>Geen geschiedenis</li>
-            ) : (
-                history.map((item, index) => (
-                    <li key={index}>
-                        <strong>{item.name}:</strong> {typeof item.value === 'object' ? <pre>{JSON.stringify(item.value, null, 2)}</pre> : item.value}
-                    </li>
-                ))
-            
-            )}
-        </ul>
+        <h2>instellingen Geschiedenis</h2>
+        {history.map((entry, index) => (
+            <div key={index}>
+                <h3>Gebruiker ID: {entry.user_id}</h3>
+                <p>Locatie: {entry.settings.location}</p>
+                <p>Wind: {entry.settings.knockOutFactors.wind}</p>
+                <p>Regen: {entry.settings.knockOutFactors.rain}</p>
+                <p>Koud: {entry.settings.knockOutFactors.cold}</p>
+                <p>Warm: {entry.settings.knockOutFactors.hot}</p>
+                <p>Sneeuw: {entry.settings.knockOutFactors.snow}</p>
+                <p>Tijd: {entry.settings.timePreferred}</p>
+            </div>
+        ))}
+        
     </div>
 );
 };

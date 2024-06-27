@@ -27,6 +27,7 @@ const Settings = ({ initSettings, setUserId }) => {
 
 
     return (
+        <div className="container">
         <form onSubmit={submitSettings}>
             <label>
                 Locatie:
@@ -60,6 +61,7 @@ const Settings = ({ initSettings, setUserId }) => {
             <button type="button" onClick={() => navigate('/')}>Annuleren</button>
 
         </form>
+        </div>
     );
 };
 

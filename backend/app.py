@@ -127,6 +127,20 @@ def weather_get(user_id):
         print(f"API Error: {response.status_code}")
         return jsonify({'error': 'weer data kan niet worden opgehaald'}), 500
 
+@app.route('/api/settings/history', methods=['GET'])
+def settings_history():
+    settings_history = []
+    for filename in os.listdir(settings_dir):
+        if filename.endswith('.json'):
+            user_id = filename.split('.')[0]
+            settings = settings_load(user_id)
+            settings_history.append({
+                'id': user_id,
+                'settings': settings})
+    return jsonify(settings_history)
+
+
+
 @app.route('/')
 def serve():
     return send_from_directory(app.static_folder, 'index.html')

@@ -28,7 +28,7 @@ const Weather = () => {
 
 
     return (
-        <div>
+        <div className="container">
             <h2>Weer voospelling</h2>
             <p>Locatie: {dataWeather.location}</p>
             <p>VertrekTijd: {dataWeather.departure}</p>
