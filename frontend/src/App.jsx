@@ -23,12 +23,12 @@ const App = () => {
   });
 
   useEffect(() => {
-    const storedUserId = Cookies.get('user_id');
+    const storedUserId = Cookies.get('user_id') || localStorage.getItem('user_id');
     if (storedUserId) {
       axios.get('http://127.0.0.1:3001/api/settings')
       .then(response => {
         setInitSettings(response.data);
-        setUserId(storedUserId);
+        localStorage.setItem('settings', JSON.stringify(response.data));
       })
       .catch(error => {
         console.error('Fout bij ophalen instellingen: ', error);

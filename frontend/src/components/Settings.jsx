@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"
 import Cookies from "js-cookie";    
 
-const Settings = ({ initSettings }) => {
+const Settings = ({ initSettings, setUserId }) => {
     const [location, setLocation] = useState(initSettings.location);
     const [knockOutFactors, setKnockOutFactors] = useState(initSettings.knockOutFactors);
     const [timePreferred, setTimePreferred] = useState(initSettings.timePreferred);
@@ -15,7 +15,10 @@ const Settings = ({ initSettings }) => {
         try {
             const response = await axios.post('http://127.0.0.1:3001/api/settings', settings);
             const { user_id } = response.data;
-            Cookies.set('user_id', user_id);
+            Cookies.set('user_id', user_id, { expires: 7 });
+            Cookies.set('settings', JSON.stringify(settings), { expires: 7 });
+            localStorage.setItem('user_id', user_id);
+            localStorage.setItem('settings', JSON.stringify(settings));
             navigate('/');
         } catch (error) {
             console.error('Fout bij opslaan instellingen: ', error);
