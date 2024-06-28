@@ -95,3 +95,9 @@ form button {
 form button:hover {
   background-color: #6b0c17;
 }
+
+
+.link-active {
+  font-weight: bold;
+  color: #c8f309;
+}
