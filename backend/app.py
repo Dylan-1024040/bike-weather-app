@@ -14,12 +14,10 @@ base_dir = os.path.dirname(__file__)
 
 settings_dir = os.path.join(base_dir, 'settings')
 
-print(f"settings dir path: {settings_dir}")
+
 
 if not os.path.exists(settings_dir):
-    print('settings directory does not exist, creating it now...')
     os.makedirs(settings_dir)
-    print('settings directory created')
 else:
     print('settings directory already exists')
    
@@ -96,7 +94,6 @@ def weather_get(user_id):
     print(f"API URL: {url}")
     if response.status_code == 200:
         data = response.json()
-        print(f"API Response: {json.dumps(data, indent=2)}")
         forecast = data['list']
         weather_data = {
             "id": user_id,
@@ -107,7 +104,6 @@ def weather_get(user_id):
         for item in forecast:
             date = item['dt_txt'].split(' ')[0]
             time = item['dt_txt'].split(' ')[1][:5]
-            print(f"Forecast item: {item}")
             if time.startswith(hours_preferred):
                 bike_okay = True
                 if item['wind']['speed'] > float(settings['knockOutFactors']['wind']):
@@ -126,7 +122,6 @@ def weather_get(user_id):
                 })
         return jsonify(weather_data)
     else:
-        print(f"API Error: {response.status_code}")
         return jsonify({'error': 'weer data kan niet worden opgehaald'}), 500
 
 @app.route('/api/settings/history', methods=['GET'])

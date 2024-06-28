@@ -38,9 +38,9 @@ const Weather = () => {
                     <p>
                         Fietsweer: 
                         {data.bike_okay ? (
-                            <img src="/happyBike.png" alt="sun on bike" style={{ width: '30px', height: '30px'}} />
+                            <span style={{ color: 'green', fontSize: '24px' }}>&#10003;</span>
                         ) : (
-                            <img src="/bikeinside.png" alt="bike in house" style={{ width: '30px', height: '30px'}} />
+                            <span style={{ color: 'red', fontSize: '24px' }}>&#10005;</span>
                         )}
                     </p>
                 </div>
