@@ -32,7 +32,7 @@ const Weather = () => {
             <h2>Weer voospelling</h2>
             <p>Locatie: {dataWeather.location}</p>
             <p>VertrekTijd: {dataWeather.departure}</p>
-            {dataWeather.okay_to_bike.map((data, index) => (
+            {dataWeather.okay_to_bike.slice(0, 3).map((data, index) => (
                 <div key={index}>
                     <p>Datum: {data.date}</p>
                     <p>
