@@ -55,13 +55,13 @@ GEBRUIK:
 
 
 EEN NIEUWE API-sleutel aanvragen
-1. Ga naar de website van OpenWeatherMap en maak een account aan of log in
+1. Ga naar de website van OpenWeatherMap en maak een account aan of log in (https://home.openweathermap.org/users/sign_up) of (https://home.openweathermap.org/users/sign_in)
 
 2. Ga naar de profiel instellingen en zoek de sectie waar u de API-sleutels kunt beheren
 
 3. Genereer een nieuwe API-sleutel voor het gebruik van de API
 
-4. Vervang de oude API-key in de back-end (app.py) door de nieuwe API key.
+4. Vervang de oude API-key in de back-end
 
 TECHNOLOGIEËN EN BIBLIOTHEKEN:
 - Frontend: React, react-router-dom, axios, js-cookies, JavaScript, HTML, CSS
@@ -85,6 +85,15 @@ fietsweer-app/
 
 # sidenote: de settings folder in de backend wordt automatisch aangemaakt zodra de backend runt, hierin worden de user-id's met de waardes bewaard
 
+### API endpoints:
+- '/api/settings'
+GET: Haal de huidige instellingen op
+POST: Werk de instellingen bij
+- '/api/weather/<user_id>'
+GET: Haal de weersvoorspellingen en fietsadviezen op voor een specifieke gebruiker
+- '/api/settings/history'
+GET: Haal de geschiedenis van alle opgeslagen instellingen op
+
 
 BIJDRAGE:
 Voel u vrij om opmerkingen te plaatsen over het project. Feedback is altijd welkom en daardoor wil ik ook blijven groeien als ontwikkelaar en als mens.
@@ -96,4 +105,4 @@ Dylan Mendes Freire (1024040)
 
 
 
-
+MIT LICENSE
