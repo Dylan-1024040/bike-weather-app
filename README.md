@@ -61,7 +61,7 @@ EEN NIEUWE API-sleutel aanvragen
 
 3. Genereer een nieuwe API-sleutel voor het gebruik van de API
 
-4. Vervang de oude API-key in de back-end
+4. Vervang de oude API-key in de back-end (app.py) door de nieuwe API key.
 
 TECHNOLOGIEËN EN BIBLIOTHEKEN:
 - Frontend: React, react-router-dom, axios, js-cookies, JavaScript, HTML, CSS
