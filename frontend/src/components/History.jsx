@@ -19,10 +19,10 @@ const History = () => {
     }, []); 
 
 return (
-    <div>
+    <div className='container'>
         <h2>instellingen Geschiedenis</h2>
         {history.map((entry, index) => (
-            <div key={index}>
+            <div key={index} className='entry-history'>
                 <h3>Gebruiker ID: {entry.user_id}</h3>
                 <p>Locatie: {entry.settings.location}</p>
                 <p>Wind: {entry.settings.knockOutFactors.wind}</p>

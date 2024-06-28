@@ -42,11 +42,13 @@ const App = () => {
   return (
     <Router>
       <Navigation />
+      <div className='container'>
         <Routes>
           <Route path="/" element={<Weather userId={userId} />} />
           <Route path="/settings" element={<Settings initSettings={initSettings} setUserId={setUserId} />} /> 
           <Route path="/history" element={<History  />} />
         </Routes>
+      </div>
    </Router>  
   );
 }
