@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+FIETSWEER APP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+De fietsweer app maakt het voor de gebruikers mogelijk om de weersvoorspelling te kunnen controleren en de fiets weer condities te bepalen op basis van persoonlijke instellingen
 
-## Available Scripts
+INHOUDSOPGAVE
 
-In the project directory, you can run:
+1. OVERZICHT
+2. INSTALLATIE
+3. GEBRUIK
+4. TECHNOLOGIEËN EN BIBLIOTHEKEN
+5. MAPPENSTRUCTUUR
+6. BIJDRAGE
 
-### `npm start`
+OVERZICHT:
+De fietsweer applicatie maakt gebruik van de OpenWeatherMap API om de gebruikers te kunnen voorzien van de weersinformatie. Gebruikers kunnen de instellingen naar hun voorkeuren instellen zoals de locatie, voorkeur voor de vertrektijd, de uitsluitingsfactoren zoals wind, regen, kou warmte en sneeuw
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+INSTALLATIE:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+volg de volgende stappen om de applicatie te installeren en uit te voeren
 
-### `npm test`
+1. Clone de repository:
+git@github.com:Rac-Software-Development/werkplaats-4---inhaalopdracht-Dylan-1024040.git cd fietsweer-app
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# installeer frontend (React) onderdelen
+2. installeer de frontend en backend dependencies:
+cd frontend
+npm install
 
-### `npm run build`
+# installeer de backend (Flask) onderdelen
+cd..
+cd backend
+python -m venv venv
+source venv/bin/activate op Unix of MacOS of venv\Scripts\activate op windows
+pip install -r requirements.txt
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. start de backend server:
+# Vanuit de backend-map
+flask run
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Start de frontend dev server:
+# Vanuit de frontend-map
+npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. Open de app in je browser: http://localhost:3000
 
-### `npm run eject`
+GEBRUIK:
+1. Homepagina: Toont de fiets weer adviezen voor de komende drie dagen (vandaag, morgen en overmorgen) op basis van uw ingestelde voorkeuren
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. Instellingen: Hier kunt u de voorkeuren aanpassen zoals locatie, vertrektijd, en de factoren voor wind, regen, kou, warmte en sneeuw.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Geschiedenis: Bekijk de geschiedenis van alle opgeslagen instellingen, daar wordt onder meer gebruik gemaakt van cookies De laatst ingestelde instellingen wordt altijd als eerste getoond
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+TECHNOLOGIEËN EN BIBLIOTHEKEN:
+- Frontend: React, react-router-dom, axios, js-cookies, JavaScript, HTML, CSS
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Backend: Flask (Python), Flask-CORS, requests, JSON, Python, OS, uuid
 
-## Learn More
+MAPPENSTRUCTUUR:
+fietsweer-app/
+|
+|---frontend/          # frontend-code (React)
+|      |-public/
+|      |-src/
+|      |  |--components/
+|      |  |--app.jsx
+|
+|
+|---backend/
+       |---app.py
+       |--- settings/  
+       |--- venv/
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# sidenote: de settings folder in de backend wordt automatisch aangemaakt zodra de backend runt, hierin worden de user-id's met de waardes bewaard
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+BIJDRAGE:
+Voel u vrij om opmerkingen te plaatsen over het project. Feedback is altijd welkom en daardoor wil ik ook blijven groeien als ontwikkelaar en als mens.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+Hogeschool Rotterdam 2024
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Dylan Mendes Freire (1024040)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
