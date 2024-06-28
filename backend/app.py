@@ -87,7 +87,7 @@ def weather_get(user_id):
     settings = settings_load(user_id)
     location = settings['location']
     time_preferred = settings['timePreferred']
-    hours_preferred = str((int(time_preferred.split(':')[0]) // 3) * 3)
+    hours_preferred = str((int(time_preferred.split(':')[0]) // 3) * 3).zfill(2)
     
     key = 'e49cc0e74ea3a19645771a064e27a972'
     url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}&units=metric'
@@ -118,6 +118,8 @@ def weather_get(user_id):
                     bike_okay = False
                 if item['main']['temp'] > float(settings['knockOutFactors']['hot']):
                     bike_okay = False
+                if 'snow' in item and item['snow'].get('3h', 0) > float(settings['knockOutFactors']['snow']) / 100:
+                    bike_okay = False
                 weather_data["okay_to_bike"].append({
                     "date": date,
                     "bike_okay": bike_okay
@@ -135,7 +137,7 @@ def settings_history():
             user_id = filename.split('.')[0]
             settings = settings_load(user_id)
             settings_history.append({
-                'id': user_id,
+                'user_id': user_id,
                 'settings': settings})
     return jsonify(settings_history)
 
