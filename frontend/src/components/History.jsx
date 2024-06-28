@@ -21,7 +21,8 @@ const History = () => {
 return (
     <div className='container'>
         <h2>instellingen Geschiedenis</h2>
-        {history.map((entry, index) => (
+        { history.length > 0 ? (
+        history.map((entry, index) => (
             <div key={index} className='entry-history'>
                 <h3>Gebruiker ID: {entry.user_id}</h3>
                 <p>Locatie: {entry.settings.location}</p>
@@ -32,8 +33,10 @@ return (
                 <p>Sneeuw: {entry.settings.knockOutFactors.snow}</p>
                 <p>Tijd: {entry.settings.timePreferred}</p>
             </div>
-        ))}
-        
+        ))
+    ): (
+        <p>Geen instellingen gevonden</p>
+    )}   
     </div>
 );
 };
