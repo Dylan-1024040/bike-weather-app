@@ -7,9 +7,10 @@ INHOUDSOPGAVE
 1. OVERZICHT
 2. INSTALLATIE
 3. GEBRUIK
-4. TECHNOLOGIEËN EN BIBLIOTHEKEN
-5. MAPPENSTRUCTUUR
-6. BIJDRAGE
+4. EEN NIEUWE API SLEUTEL AANVRAGEN
+5. TECHNOLOGIEËN EN BIBLIOTHEKEN
+6. MAPPENSTRUCTUUR
+7. BIJDRAGE
 
 OVERZICHT:
 De fietsweer applicatie maakt gebruik van de OpenWeatherMap API om de gebruikers te kunnen voorzien van de weersinformatie. Gebruikers kunnen de instellingen naar hun voorkeuren instellen zoals de locatie, voorkeur voor de vertrektijd, de uitsluitingsfactoren zoals wind, regen, kou warmte en sneeuw
@@ -39,6 +40,8 @@ flask run
 
 4. Start de frontend dev server:
 # Vanuit de frontend-map
+npm install
+
 npm start
 
 5. Open de app in je browser: http://localhost:3000
@@ -50,10 +53,20 @@ GEBRUIK:
 
 3. Geschiedenis: Bekijk de geschiedenis van alle opgeslagen instellingen, daar wordt onder meer gebruik gemaakt van cookies De laatst ingestelde instellingen wordt altijd als eerste getoond
 
+
+EEN NIEUWE API-sleutel aanvragen
+1. Ga naar de website van OpenWeatherMap en maak een account aan of log in
+
+2. Ga naar de profiel instellingen en zoek de sectie waar u de API-sleutels kunt beheren
+
+3. Genereer een nieuwe API-sleutel voor het gebruik van de API
+
+4. Vervang de oude API-key in de back-end
+
 TECHNOLOGIEËN EN BIBLIOTHEKEN:
 - Frontend: React, react-router-dom, axios, js-cookies, JavaScript, HTML, CSS
 
-- Backend: Flask (Python), Flask-CORS, requests, JSON, Python, OS, uuid
+- Backend: Flask (Python), Flask-CORS, requests, JSON, Python, os, uuid
 
 MAPPENSTRUCTUUR:
 fietsweer-app/

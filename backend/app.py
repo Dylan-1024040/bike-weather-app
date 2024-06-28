@@ -4,6 +4,7 @@ import requests
 import json
 import os
 import uuid
+from config import OPENWEATHERMAP_API_KEY
 
 # flask app initialisatie
 app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
@@ -89,7 +90,7 @@ def weather_get(user_id):
     hours_preferred = str((int(time_preferred.split(':')[0]) // 3) * 3).zfill(2)
     
     # API URL
-    key = 'e49cc0e74ea3a19645771a064e27a972'
+    key = OPENWEATHERMAP_API_KEY
     url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}&units=metric'
     
     # haalt de weerdata op van de API
