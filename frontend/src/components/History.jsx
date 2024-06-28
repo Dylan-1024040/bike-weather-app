@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
+// component om de instellingen geschiedenis te tonen
 const History = () => {
     const [history, setHistory] = useState([]);
-
+     // haalt de geschiedenis van de instellingen op
     useEffect(() => {
         const fetchHistory = async () => {
             try {
@@ -18,6 +18,7 @@ const History = () => {
         fetchHistory();
     }, []); 
 
+// rendeer de instellingen geschiedenis    
 return (
     <div className='container'>
         <h2>instellingen Geschiedenis</h2>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+//  comonent voor de navbar
 const Navigation = () => (
     <nav>
         <ul>

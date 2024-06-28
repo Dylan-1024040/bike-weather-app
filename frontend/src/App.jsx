@@ -8,7 +8,9 @@ import History from './components/History';
 import Navigation from './components/Navigation';
 import './App.css';
 
+// hoofd component
 const App = () => {
+  // state voor de gebruiker id en de instellingen
   const [userId, setUserId] = useState(null);
   const [initSettings, setInitSettings] = useState({
     location: '',
@@ -22,6 +24,7 @@ const App = () => {
     timePreferred: '08:00',
   });
 
+  //haalt de instellingen op van de gebruiker
   useEffect(() => {
     const fetchSettings = async () => {
       const userIdFromCookie = Cookies.get('user_id');
@@ -39,6 +42,7 @@ const App = () => {
   }, []);
 
 
+  // rendeert de navigatie en de routes
   return (
     <Router>
       <Navigation />

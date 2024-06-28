@@ -5,7 +5,7 @@ import json
 import os
 import uuid
 
-
+# flask app initialisatie
 app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 CORS(app)
 
@@ -15,13 +15,13 @@ base_dir = os.path.dirname(__file__)
 settings_dir = os.path.join(base_dir, 'settings')
 
 
-
+# maakt de settings directory aan als deze nog niet bestaat
 if not os.path.exists(settings_dir):
     os.makedirs(settings_dir)
 else:
     print('settings directory already exists')
    
-# laat de instellingen van de gebruiker zien 
+# shows the settings of the user
 def settings_load(user_id):
     if not user_id:
         return {
@@ -57,7 +57,7 @@ def settings_save(user_id, settings):
     with open(file_with_settings, 'w') as file:
         json.dump(settings, file)
         
-        
+ # route voor het ophalen van de instellingen van de gebruiker       
 @app.route('/api/settings', methods=['GET'])
 def settings_get():
     user_id = request.cookies.get('user_id')
@@ -66,6 +66,7 @@ def settings_get():
     else:
         return jsonify(settings_load(None))
 
+# route voor het updaten van de instellingen van de gebruiker
 @app.route('/api/settings', methods=['POST'])
 def settings_update():
     user_id = request.cookies.get('user_id')
@@ -79,7 +80,7 @@ def settings_update():
     response.set_cookie('user_id', user_id)
     return response
 
-
+# route voor het ophalen van de weerdata van de gebruiker
 @app.route('/api/weather/<user_id>', methods=['GET'])
 def weather_get(user_id):
     settings = settings_load(user_id)
@@ -87,11 +88,12 @@ def weather_get(user_id):
     time_preferred = settings['timePreferred']
     hours_preferred = str((int(time_preferred.split(':')[0]) // 3) * 3).zfill(2)
     
+    # API URL
     key = 'e49cc0e74ea3a19645771a064e27a972'
     url = f'https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={key}&units=metric'
     
+    # haalt de weerdata op van de API
     response = requests.get(url)
-    print(f"API URL: {url}")
     if response.status_code == 200:
         data = response.json()
         forecast = data['list']
@@ -101,6 +103,8 @@ def weather_get(user_id):
             "departure": time_preferred,
             "okay_to_bike": []
         }
+        
+        # controleert of het weer goed genoeg is om te fietsen
         for item in forecast:
             date = item['dt_txt'].split(' ')[0]
             time = item['dt_txt'].split(' ')[1][:5]
@@ -124,6 +128,7 @@ def weather_get(user_id):
     else:
         return jsonify({'error': 'weer data kan niet worden opgehaald'}), 500
 
+# route voor het ophalen van de instellingen van de gebruiker
 @app.route('/api/settings/history', methods=['GET'])
 def settings_history():
     settings_history = []
@@ -137,14 +142,16 @@ def settings_history():
     return jsonify(settings_history)
 
 
-
+# route voor het ophalen van de weerdata van de gebruiker
 @app.route('/')
 def serve():
     return send_from_directory(app.static_folder, 'index.html')
 
+# route voor het ophalen van de statische bestanden
 @app.errorhandler(404)
 def not_found(e):
     return send_from_directory(app.static_folder, 'index.html')
 
+# start de app in debug mode
 if __name__ == '__main__':
     app.run(debug=True, port=3001)

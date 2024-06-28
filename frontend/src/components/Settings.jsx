@@ -3,14 +3,17 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"
 import Cookies from "js-cookie";    
 
+// component voor het instellen van de instellingen
 const Settings = ({ initSettings, setUserId }) => {
     const [location, setLocation] = useState(initSettings.location);
     const [knockOutFactors, setKnockOutFactors] = useState(initSettings.knockOutFactors);
     const [timePreferred, setTimePreferred] = useState(initSettings.timePreferred);
     const navigate = useNavigate();
     
+    // functie om de instellingen op te slaan
     const submitSettings = async (e) => {
         e.preventDefault();
+        // slaat de instellingen op
         const settings = { location, knockOutFactors, timePreferred };
         try {
             const response = await axios.post('http://127.0.0.1:3001/api/settings', settings);
@@ -25,7 +28,7 @@ const Settings = ({ initSettings, setUserId }) => {
         }
     };
 
-
+    // rendeert het formulier voor het instellen van de instellingen
     return (
         <div className="container">
         <form onSubmit={submitSettings}>
@@ -59,7 +62,6 @@ const Settings = ({ initSettings, setUserId }) => {
             </label>
             <button type="submit">Opslaan</button>
             <button type="button" onClick={() => navigate('/')}>Annuleren</button>
-
         </form>
         </div>
     );

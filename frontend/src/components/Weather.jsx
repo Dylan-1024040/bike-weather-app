@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+// component voor het weer advies
 const Weather = () => {
     const [dataWeather, setDataWeather ] = useState({
         location: '',
         departure: '',
         okay_to_bike: [],
     });
-
+    
+    // haalt de weer data op
     useEffect(() => {
         const userId = Cookies.get('user_id');
         if (userId) {
@@ -26,7 +28,7 @@ const Weather = () => {
 
 }, []);
 
-
+    // rendeert de weer data
     return (
         <div className="container">
             <h2>Weer voospelling</h2>
