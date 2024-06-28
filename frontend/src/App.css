@@ -53,9 +53,7 @@ nav ul li a:hover {
   }
 }
 
-nav ul li {
-  margin: 10px 0;
-}
+
 
 form {
   display: flex;
@@ -99,5 +97,5 @@ form button:hover {
 
 .link-active {
   font-weight: bold;
-  color: #c8f309;
+  color: #90947e;
 }
